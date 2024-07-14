@@ -7,6 +7,7 @@ import jdk.jfr.Category;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 public class FackStorePublicService implements productService {
@@ -28,7 +29,16 @@ public class FackStorePublicService implements productService {
 
     @Override
     public List<product> getAllProduct() {
-        return null;
+        FackStorePublicdtos[] fackStorePublicdtos = restTemplate.getForObject(
+                "https://fakestoreapi.com/products",
+                FackStorePublicdtos[].class);
+//        convert of list of fackstoreproduct into list of product
+        List<product> products = new ArrayList<>();
+        for (FackStorePublicdtos fackStorePublicdto : fackStorePublicdtos) {
+            products.add(convertDtoToProduct(fackStorePublicdto));
+        }
+
+        return products;
     }
     private product convertDtoToProduct(FackStorePublicdtos fackStorePublicdtos) {
         product  product  = new product();

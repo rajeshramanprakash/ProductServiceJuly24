@@ -30,8 +30,9 @@ public class ProductController {
         return  productService.getSingleProduct(id);
 //        return  null;
     }
+    @GetMapping()
     public List<product> getAllProducts(){
-        return new ArrayList<>();
+        return productService.getAllProduct();
     }
 //    public addNewProduct(){
 //
