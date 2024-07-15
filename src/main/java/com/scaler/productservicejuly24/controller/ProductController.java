@@ -4,10 +4,7 @@ import com.scaler.productservicejuly24.ProductServiceJuly24Application;
 import com.scaler.productservicejuly24.models.product;
 import com.scaler.productservicejuly24.services.FackStorePublicService;
 import com.scaler.productservicejuly24.services.productService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -34,8 +31,20 @@ public class ProductController {
     public List<product> getAllProducts(){
         return productService.getAllProduct();
     }
-//    public addNewProduct(){
-//
-//    }
+    public void deleteProductById(Long id){
+
+    }
+//    partical update
+@PatchMapping("/{id}")
+
+    public  product replaceProductById(@PathVariable("id") Long id,@RequestBody product product){
+    return productService.updateProduct(id, product);
+    }
+//    full update
+
+@PutMapping("/id")
+    public  product updateProductById(@PathVariable("id") Long id,@RequestBody product product){
+        return null;
+    }
 
 }

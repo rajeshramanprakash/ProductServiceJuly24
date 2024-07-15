@@ -3,8 +3,10 @@ package com.scaler.productservicejuly24.services;
 import com.scaler.productservicejuly24.dtos.FackStorePublicdtos;
 import com.scaler.productservicejuly24.models.category;
 import com.scaler.productservicejuly24.models.product;
-import jdk.jfr.Category;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpMessageConverterExtractor;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -40,6 +42,43 @@ public class FackStorePublicService implements productService {
 
         return products;
     }
+//Patch (Partial update)
+    @Override
+    public product updateProduct(Long id, product product) {
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(product, FackStorePublicdtos.class);
+        HttpMessageConverterExtractor<FackStorePublicdtos> responseExtracter =
+                new HttpMessageConverterExtractor(FackStorePublicdtos.class,
+                restTemplate.getMessageConverters());
+        FackStorePublicdtos response = restTemplate.execute("http://fakestoreapi.com/products/" + id,
+                HttpMethod.PATCH, requestCallback, responseExtracter);
+//        restTemplate.put("http://fakestoreapi.com/products/" + id, product);
+
+        return convertDtoToProduct(response);
+    }
+
+
+@Override
+//put (All change)
+    public  product replaceProduct(Long id, product product) {
+      return  null;
+
+    }
+
+    @Override
+    public product removeProduct(Long id, product product) {
+        return null;
+    }
+
+
+//Put (All update)
+
+
+
+    @Override
+    public void deleteProduct(Long id) {
+
+    }
+
     private product convertDtoToProduct(FackStorePublicdtos fackStorePublicdtos) {
         product  product  = new product();
         product.setId(fackStorePublicdtos.getId());
